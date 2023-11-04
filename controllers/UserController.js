@@ -64,6 +64,7 @@ export const register = async (req, res) => {
                 expiresIn: '30d',
             },
         )
+        // 
         const { passHash, ...userData } = user._doc
         res.json({
             ...userData,

@@ -4,6 +4,7 @@ import * as UserController from './controllers/UserController.js'
 import { registerValidation } from './validations/auth.js'
 import { cardCreateValidation } from './validations/post.js'
 import { validationResult } from 'express-validator'
+import checkAdminRole from './validations/admin.js'
 
 import CardModel from './models/cards.js'
 
@@ -36,7 +37,7 @@ app.get('/cards/', async (req, res) => {
     }
 })
 
-app.post('/admin/cards/create', cardCreateValidation, async (req, res) => {
+app.post('/admin/cards/create', checkAdminRole, cardCreateValidation, async (req, res) => {
     try {
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
@@ -49,7 +50,7 @@ app.post('/admin/cards/create', cardCreateValidation, async (req, res) => {
             description: req.body.description,
             abilities: req.body.abilities,
             imageUrl: req.body.imageUrl,
-            
+
         });
         await doc.save()
         res.status(200).json({
