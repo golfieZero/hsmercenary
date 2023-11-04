@@ -1,0 +1,25 @@
+POST http://localhost:8000/admin/cards/create
+content-type: application/json
+
+{
+    "name": "Лучшая колода для новичков",
+    "description": "Такие-то условия работы колоды, возможно реализовтаь при определенных случаях, акцентировать улучшение способности 'Восхождение' у мага",
+    "imageUrl": "https://music.yandex.ru/home",
+    "abilities": [
+    {
+      "name": "Способность 1",
+      "description": "Описание способности 1",
+      "level": 1
+    },
+    {
+      "name": "Способность 2",
+      "description": "Описание способности 2",
+      "level": 2
+    },
+    {
+      "name": "Способность 3",
+      "description": "Описание способности 3",
+      "level": 3
+    }
+    ]
+}

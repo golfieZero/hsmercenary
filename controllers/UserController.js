@@ -3,7 +3,6 @@ import bcrypt from 'bcrypt'
 import { validationResult } from 'express-validator'
 import UserModel from '../models/user.js'
 
-
 export const login = async (req, res) => {
     try {
         const user = await UserModel.findOne({ $or: [{ email: req.body.email }, { login: req.body.login }] })
@@ -78,11 +77,11 @@ export const register = async (req, res) => {
     }
 }
 
-export const profile = async (req, res) => {
+// export const profile = async (req, res) => {
     try {
 
     }
     catch (err) {
 
     }
-}
+// }

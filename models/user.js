@@ -1,23 +1,23 @@
 import mongoose from 'mongoose'
 
 const UserSchema = new mongoose.Schema({
-    login:{
+    login: {
         type: String,
         required: true,
         unique: true,
     },
-    email:{
+    email: {
         type: String,
         required: true,
         unique: true,
     },
-    passHash:{
+    passHash: {
         type: String,
         required: true,
     },
-    avatarUrl:String,
+    avatarUrl: String,
 }, {
-    timestamps:true,
+    timestamps: true,
 })
 
 export default mongoose.model('User', UserSchema)
