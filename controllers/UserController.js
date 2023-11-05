@@ -24,6 +24,7 @@ export const login = async (req, res) => {
                 expiresIn: '30d',
             },
         )
+        // TODO: Возвращать только токен
         const { passHash, ...userData } = user._doc
         res.json({
             ...userData,
@@ -64,7 +65,7 @@ export const register = async (req, res) => {
                 expiresIn: '30d',
             },
         )
-        // 
+        // TODO: Возвращать только токен
         const { passHash, ...userData } = user._doc
         res.json({
             ...userData,
@@ -79,10 +80,10 @@ export const register = async (req, res) => {
 }
 
 // export const profile = async (req, res) => {
-    try {
+try {
 
-    }
-    catch (err) {
+}
+catch (err) {
 
-    }
+}
 // }

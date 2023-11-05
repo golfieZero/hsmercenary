@@ -2,7 +2,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import * as UserController from './controllers/UserController.js'
 import { registerValidation } from './validations/auth.js'
-import { cardCreateValidation } from './validations/post.js'
+import { cardCreateValidation, postCreateValidation } from './validations/post.js'
 import { validationResult } from 'express-validator'
 import checkAdminRole from './validations/admin.js'
 
@@ -65,6 +65,20 @@ app.post('/admin/cards/create', checkAdminRole, cardCreateValidation, async (req
     }
 })
 
+app.post('/posts/create', postCreateValidation, async (req, res) => {
+    try {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(400).json(errors.array())
+        }
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).json({
+            message: 'Не удалось создать пост',
+        })
+    }
+})
 
 
 app.listen(PORT, () => {

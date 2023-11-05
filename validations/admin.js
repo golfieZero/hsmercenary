@@ -3,12 +3,18 @@ import UserModel from '../models/user.js';
 
 const checkAdminRole = async (req, res, next) => {
   try {
-    const token = req.body.token;
+    const token = req.headers.authorization; // Извлечение токена из заголовка Authorization
     if (!token) {
       return res.status(401).json({ message: 'Токен отсутствует' });
     }
 
-    const decoded = jwt.verify(token, 'cryptkeyverysecret');
+    if (!token.startsWith('Bearer ')) {
+      return res.status(401).json({ message: 'Неверный формат токена' });
+    }
+
+    const tokenValue = token.slice(7); // Удаление "Bearer " из начала токена
+
+    const decoded = jwt.verify(tokenValue, 'cryptkeyverysecret');
     if (!decoded || !decoded._id) {
       return res.status(401).json({ message: 'Неверный токен' });
     }

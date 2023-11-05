@@ -1,5 +1,6 @@
 POST http://localhost:8000/admin/cards/create
 content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTQ2YTg2ZGM0ZjY5ZmIzOTcxZGE0NDciLCJpYXQiOjE2OTkxMjk0NTMsImV4cCI6MTcwMTcyMTQ1M30.ErDJ1aDLq82BiT0IebZvpgMWhZX3nFa0_Db_QBrgJ10
 
 {
     "name": "Лучшая колода для новичков",
