@@ -30,17 +30,23 @@ app.post('/auth/register', registerValidation, UserController.register)
 
 app.get('/admin/cards', checkAdminRole, AdminController.getCards)
 
-app.post('/admin/cards', checkAdminRole, cardCreateValidation, AdminController.createCards)
-// допилить
-app.post('/posts/create', postCreateValidation, getUser, async (req, res) => {
+app.post('/admin/cards', checkAdminRole, cardCreateValidation, checkAdminRole, AdminController.createCards)
+// допилить валидацию карт
+app.post('/posts', getUser, postCreateValidation, async (req, res) => {
     try {
         const errors = validationResult(req)
         if (!errors.isEmpty()) {
             return res.status(400).json(errors.array())
+        }          
+        const cardsId = []
+        for (const card in req.body.cards){
+            cardsId.push(await PostModel.findOne({name: req.body.cards.name}))
+
         }
+        console.log(cardsId)
         const doc = new PostModel({
-            title: req.body.name,
-            text: req.body.description,
+            title: req.body.title,
+            text: req.body.text,
             author: req.user._id,
             cards: req.body.cards,
         });

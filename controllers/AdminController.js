@@ -1,4 +1,5 @@
 import CardModel from '../models/cards.js'
+import { validationResult } from 'express-validator'
 
 export const getCards = async (req, res) => {
     try {
@@ -27,7 +28,6 @@ export const createCards = async (req, res) => {
 
         const doc = new CardModel({
             name: req.body.name,
-            description: req.body.description,
             abilities: req.body.abilities,
             imageUrl: req.body.imageUrl,
 

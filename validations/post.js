@@ -7,14 +7,13 @@ export const postCreateValidation = [
   body('cards', 'Карты переданы неверно').isArray().custom((cards) => {
     if (cards.length !== 6) {
       throw new Error('Неверное количество карт');
-    }
+    } 
     return true;
   }),
 ]
 
 export const cardCreateValidation = [
   body('name').isString().notEmpty(),
-  body('description').isString(),
   body('imageUrl').isURL(),
   body('abilities').isArray(),
   body('abilities.*.name').isString().notEmpty(),
