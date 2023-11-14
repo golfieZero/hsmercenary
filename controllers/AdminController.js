@@ -28,8 +28,8 @@ export const createCards = async (req, res) => {
 
         const doc = new CardModel({
             name: req.body.name,
-            abilities: req.body.abilities,
             imageUrl: req.body.imageUrl,
+            abilities: req.body.abilities,
 
         });
         await doc.save()

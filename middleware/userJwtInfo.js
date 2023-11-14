@@ -3,7 +3,7 @@ import UserModel from '../models/user.js';
 
 const getUser = async (req, res, next) => {
     try {
-        const token = req.headers.authorization; // Извлечение токена из заголовка Authorization
+        const token = req.headers.authorization
 
         if (!token) {
             return res.status(401).json({ message: 'Токен отсутствует' });
@@ -13,7 +13,7 @@ const getUser = async (req, res, next) => {
             return res.status(401).json({ message: 'Неверный формат токена' });
         }
         const tokenValue = token.slice(7); // Удаление "Bearer " из начала токена
-        const decoded = jwt.verify(tokenValue, 'cryptkeyverysecret');
+        const decoded = jwt.verify(tokenValue, 'cryptkeyverysecret'); // Сохранить в локальной переменной
         if (!decoded || !decoded._id) {
             return res.status(401).json({ message: 'Неверный токен' });
         }
@@ -23,7 +23,6 @@ const getUser = async (req, res, next) => {
             return res.status(401).json({ message: 'Пользовтель не найден' });
         }
         // Добавляем пользователя к объекту запроса для дальнейшего использования
-
         req.user = user;
         next()
     }
