@@ -101,7 +101,7 @@ app.get('/posts/:id', async (req, res) => {
 // })
 app.delete('/posts/:id', getUser, async (req, res) => {
     try {
-        const postId = req.params.id
+        
         const deletedPost = await PostModel.findByIdAndDelete(req.params.id)
         if (!deletedPost){
             return res.status(404).json({
