@@ -16,7 +16,7 @@ const PORT = 8000;
 const app = express();
 //подключаем бд
 mongoose
-    .connect('mongodb+srv://golfiedev:golfiedev@cluster0.qyyqdfs.mongodb.net/test?retryWrites=true&w=majority')
+    .connect('')
     .then(() => console.log('Db connected'))
     .catch((err) => console.log('db error:', err))
 
