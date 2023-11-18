@@ -35,7 +35,6 @@ app.post('/posts', getUser, postCreateValidation, async (req, res) => {
         if (!errors.isEmpty()) {
             return res.status(400).json(errors.array())
         }
-        console.log(req.body.cards)
         const doc = new PostModel({
             title: req.body.title,
             text: req.body.text,
@@ -101,14 +100,20 @@ app.get('/posts/:id', async (req, res) => {
 // })
 app.delete('/posts/:id', getUser, async (req, res) => {
     try {
-        
-        const deletedPost = await PostModel.findByIdAndDelete(req.params.id)
+        const deletedPost = await PostModel.findById(req.params.id).populate('author')
+        // const condition = deletedPost.author._id.equals(req.user._id)
+        if (!(deletedPost.author._id.equals(req.user._id) || req.user.role == 'admin')){  
+            return res.status(400).json({
+                message: "Недостаточно прав"
+            })
+        }
         if (!deletedPost){
             return res.status(404).json({
                 message: "Публикация не найдена"
             })
         }
-        res.status(200).json({
+        PostModel.findByIdAndDelete(req.params.id).exec()
+        return res.status(200).json({
             message: "Успех"
         })
     } catch (err) {
