@@ -66,7 +66,7 @@ export const register = async (req, res) => {
             },
         )
         // TODO: Возвращать только токен
-        res.json({token: token})
+        res.json({ token: token })
     } catch (err) {
         console.log(err)
         res.status(500).json({
@@ -75,11 +75,17 @@ export const register = async (req, res) => {
     }
 }
 
-// export const profile = async (req, res) => {
-try {
+export const profile = async (req, res) => {
+    try {
+        const user = await UserModel.findById(req.user._id)
+        const sanitizedUser = user.toJSON()
+        return res.status(200).json(sanitizedUser)
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).json({
+            message: 'Не удалось получить информацию о профиле',
+        })
 
+    }
 }
-catch (err) {
-
-}
-// }

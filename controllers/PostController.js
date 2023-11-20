@@ -42,6 +42,9 @@ export const getAll = async (req, res) => {
 export const getOne = async (req, res) => {
     try {
         const post = await PostModel.findById(req.params.id)
+        if (!post) {
+            return res.status(404).json({ message: "Публикация не найдена" })
+        }
         return res.json(post)
     }
     catch (err) {
@@ -66,11 +69,11 @@ export const update = async (req, res) => {
             })
         }
         await updatedPost.updateOne({
-                title: req.body.title,
-                text: req.body.text,
-                author: req.user._id,
-                cards: req.body.cards,
-            })
+            title: req.body.title,
+            text: req.body.text,
+            author: req.user._id,
+            cards: req.body.cards,
+        })
         res.status(200).json({
             message: "Успех"
         })
@@ -86,7 +89,6 @@ export const update = async (req, res) => {
 export const deleteOne = async (req, res) => {
     try {
         const deletedPost = await PostModel.findById(req.params.id).populate('author')
-        // const condition = deletedPost.author._id.equals(req.user._id)
         if (!(deletedPost.author._id.equals(req.user._id) || req.user.role == 'admin')) {
             return res.status(400).json({
                 message: "Недостаточно прав"
@@ -104,7 +106,7 @@ export const deleteOne = async (req, res) => {
     } catch (err) {
         console.log(err)
         res.status(500).json({
-            message: 'Не удалось обновить пост',
+            message: 'Не удалось удалить пост',
         })
     }
 }

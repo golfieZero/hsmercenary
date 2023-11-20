@@ -12,7 +12,7 @@ import getUser from './middleware/userJwtInfo.js'
 
 const PORT = 8000;
 const app = express();
-//подключаем бд
+//Убрать в локальную переменную
 mongoose
     .connect('mongodb+srv://golfiedev:golfiedev@cluster0.qyyqdfs.mongodb.net/test?retryWrites=true&w=majority')
     .then(() => console.log('Db connected'))
@@ -22,10 +22,14 @@ app.use(express.json());
 
 app.post('/auth/login', UserController.login)
 app.post('/auth/register', registerValidation, UserController.register)
-// app.get('/auth/me', UserController.login)
+app.get('/auth/me', getUser, UserController.profile)
 
-app.get('/admin/cards', checkAdminRole, AdminController.getCards)
-app.post('/admin/cards', checkAdminRole, cardCreateValidation, checkAdminRole, AdminController.createCards)
+app.get('/admin/cards', checkAdminRole, AdminController.getAll)
+app.post('/admin/cards', checkAdminRole, cardCreateValidation, checkAdminRole, AdminController.create)
+app.get('/admin/cards/:id', AdminController.getOne)
+app.patch('/admin/cards/:id', getUser, postCreateValidation, AdminController.update)
+app.delete('/admin/cards/:id', getUser, AdminController.deleteOne)
+
 
 app.post('/posts', getUser, postCreateValidation, PostController.create)
 app.get('/posts', PostController.getAll)

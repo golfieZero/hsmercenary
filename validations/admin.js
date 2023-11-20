@@ -3,7 +3,7 @@ import UserModel from '../models/user.js';
 
 const checkAdminRole = async (req, res, next) => {
   try {
-    const token = req.headers.authorization; // Извлечение токена из заголовка Authorization
+    const token = req.headers.authorization;
     if (!token) {
       return res.status(401).json({ message: 'Токен отсутствует' });
     }
