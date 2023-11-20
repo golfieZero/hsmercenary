@@ -66,11 +66,7 @@ export const register = async (req, res) => {
             },
         )
         // TODO: Возвращать только токен
-        const { passHash, ...userData } = user._doc
-        res.json({
-            ...userData,
-            token
-        })
+        res.json({token: token})
     } catch (err) {
         console.log(err)
         res.status(500).json({
