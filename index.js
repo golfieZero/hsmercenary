@@ -8,13 +8,14 @@ import * as AdminController from './controllers/AdminController.js'
 import checkAdminRole from './validations/admin.js'
 import getUser from './middleware/userJwtInfo.js'
 
+import dotenv from 'dotenv';
+dotenv.config();
 
 
-const PORT = 8000;
 const app = express();
 //Убрать в локальную переменную
 mongoose
-    .connect('mongodb+srv://golfiedev:golfiedev@cluster0.qyyqdfs.mongodb.net/test?retryWrites=true&w=majority')
+    .connect(process.env.DB_URL)
     .then(() => console.log('Db connected'))
     .catch((err) => console.log('db error:', err))
 
@@ -26,9 +27,9 @@ app.get('/auth/me', getUser, UserController.profile)
 
 app.get('/admin/cards', checkAdminRole, AdminController.getAll)
 app.post('/admin/cards', checkAdminRole, cardCreateValidation, checkAdminRole, AdminController.create)
-app.get('/admin/cards/:id', AdminController.getOne)
-app.patch('/admin/cards/:id', getUser, postCreateValidation, AdminController.update)
-app.delete('/admin/cards/:id', getUser, AdminController.deleteOne)
+app.get('/admin/cards/:id', checkAdminRole, AdminController.getOne)
+app.patch('/admin/cards/:id', checkAdminRole, cardCreateValidation, AdminController.update)
+app.delete('/admin/cards/:id', checkAdminRole, AdminController.deleteOne)
 
 
 app.post('/posts', getUser, postCreateValidation, PostController.create)
@@ -37,6 +38,6 @@ app.get('/posts/:id', PostController.getOne)
 app.patch('/posts/:id', getUser, postCreateValidation, PostController.update)
 app.delete('/posts/:id', getUser, PostController.deleteOne)
 
-app.listen(PORT, () => {
-    console.log(`Сервер запущен на порте ${PORT}`);
+app.listen(process.env.PORT, () => {
+    console.log(`Сервер запущен на порте ${process.env.PORT}`);
 });

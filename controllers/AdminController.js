@@ -47,6 +47,10 @@ export const create = async (req, res) => {
 
 export const getOne = async (req, res) => {
     try {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(400).json(errors.array())
+        }
         const card = await CardModel.findById(req.params.id)
         if (!card) {
             return res.status(404).json({ message: "Карта не найдена" })
@@ -63,6 +67,10 @@ export const getOne = async (req, res) => {
 
 export const update = async (req, res) => {
     try {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(400).json(errors.array())
+        }
         const updatedCard = await CardModel.findById(req.params.id)
         if (!updatedCard) {
             return res.status(404).json({
@@ -88,6 +96,10 @@ export const update = async (req, res) => {
 
 export const deleteOne = async (req, res) => {
     try {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(400).json(errors.array())
+        }
         const deletedCard = await CardModel.findById(req.params.id)
         if (!deletedCard) {
             return res.status(404).json({
